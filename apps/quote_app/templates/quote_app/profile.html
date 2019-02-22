@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit Account</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        #container {
+            background-color: #e9f4e6;
+            width: 90%;
+            padding: 20px;
+            margin: auto;
+            border: solid 5px black;
+            min-height: 500px;
+        }
+
+        h2 {
+            float: left;
+        }
+
+        .quote {
+            border: solid 2px black;
+            padding: 10px;
+            width: 30%;
+            margin: 10px;
+        }
+
+        #back {
+            float: right;
+            vertical-align: top;
+        }
+
+        #logout {
+            float: right;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<div id="container">
+
+    <body>
+
+        <h2>Edit My Account</h2>
+        <a href="/back" id="back">Back</a>
+        <button id="logout" onclick="window.location.href = '/clear';">Logout</button><br>
+        <div class="edit">
+            <p>
+                <br>
+                <p>Current name: {{request.session.first_name}} {{request.session.last_name}}</p>
+                <form action="/edit/{{user.id}}" method="POST">
+                    {% csrf_token %}
+                    <label>First Name <input class="form-group" type="text" name="first_name"
+                            value="{{request.session.first_name}}"></label><br>
+                    <lable>Last Name <input class="form-group" type="text" name="last_name"
+                            value="{{request.session.last_name}}"></lable><br>
+                    <label>Email <input class="form-group" type="text" name="email" value="{{request.session.email}}">
+                        </lable><br>
+                        <input type="submit" class="btn btn-outline-danger" value="Update">
+                </form>
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                        {% endfor %}
+                </ul>
+                {% endif %}
+            </p>
+        </div>
+
+
+    </body>
+</div>
+
+</html>

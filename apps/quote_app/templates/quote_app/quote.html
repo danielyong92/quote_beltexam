@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quote Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+
+        #container {
+            background-color: #e9f4e6;
+            width: 90%;
+            padding: 20px;
+            margin: auto;
+            border: solid 5px black;
+            min-height: 500px;
+        }
+
+        h1 {
+            display: inline-block;
+        }
+
+        #username_display {
+            vertical-align: top;
+            float: left;
+        }
+
+        #logout {
+            float: right;
+        }
+
+        /* textarea {
+            width: 100%;
+        } */
+
+        .box {
+            border: solid 3px blue;
+            padding: 10px;
+        }
+
+        .comment {
+            width: 50%;
+        }
+
+        span {
+            font-weight: bold;
+        }
+
+        .edit {
+            float: right;
+        }
+        .add_quote{
+            border: solid 2px black;
+            padding: 30px;
+            width:30%;
+            float:right;
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+        .quote{
+            border: solid 2px black;
+            padding: 10px;
+            width:30%;
+            margin:10px;
+        }
+    </style>
+</head>
+
+<div id="container">
+        <body>
+        <h3>Welcome, {{request.session.first_name}}!</h3>
+        <!-- Edit profile button////////////// -->
+        <a class="edit" href="/myaccount/{{request.session.user_id}}">Edit My Account</a>
+        <!-- end profile -->
+        <button id="logout" onclick="window.location.href = '/clear';">Logout</button><br>
+
+        <!-- //////////////////////////////////// Add_quote !-->
+        <div class="add_quote">
+            <form action="add_quote" method="POST">
+                {% csrf_token %}
+                <h3>Add a Quote!</h3>
+                <p>Author:</p><input type="text" name="author">
+                <p>Quote:</p><textarea name="quote"></textarea><br>
+                <input type="submit" value="Submit">
+            </form>
+
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+            </ul>
+            {% endif %}
+
+        </div>
+        <!-- /////////////////////////////////////// End Add-->
+
+        <!-- QUOTE DASHBOARD -->
+        <label>Quotes:</label>
+
+        {% for quote in all_quotes %}
+
+        <div class="quote">
+            {{quote.author}}:
+            <p>{{quote.quote}}</p>
+            <p>Posted by <a href ="/user/{{quote.user.id}}">{{quote.user.first_name}}</a></p>
+            <!-- <p> # people like this</p>
+            <button id="like" onclick="window.location.href = '';">Like</button><br> -->
+            {% if quote.user.first_name == request.session.user_name %}
+                <a href="/delete/{{quote.id}}" id="delete">Delete</a><br>
+            {% endif %}
+        
+            Liked {{quote.like.count}} times<br>
+            <a href="/like_message/{{quote.id}}">Like Button!</a>
+            {% for like in message.like.all %}
+            {% if like.id == reuqest.session.user_id %}
+            <p>I liked this</p>
+            {% endif %}
+             {% endfor %}
+        </div>
+        {% endfor %}
+        <!-- END DASHBOARD -->
+
+        </body>
+</div>
+
+</html>

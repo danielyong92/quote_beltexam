@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        #outer{
+            padding:130px;
+        }
+        #container {
+            margin:auto;
+            min-height: 300px;
+            width: 1000px;
+            padding: 80px;
+            border: solid 5px black;
+        }
+
+        .registration {
+            display: inline-block;
+        }
+
+        .login {
+            /* margin-left: 100px; */
+            vertical-align: top;
+            float:right;
+            /* display: inline-block; */
+        }
+        .form-group{
+            text-align: center;
+            background-color:#eaeaea;
+            border-radius: 10px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div id=outer>
+    <div id="container">
+
+        <div class="registration">
+            <h1>Registration</h1>
+            <form action="/processing" method="POST">
+                {% csrf_token %}
+                <p>First Name<br><input class="form-group" type="text" name="first_name" placeholder="Enter First Name"></p>
+                <p>Last Name<br><input class="form-group" type="text" name="last_name" placeholder="Enter Last Name"></p>
+                <p>Email<br><input class="form-group" type="text" name="email" placeholder="Enter email"></p>
+                <p>Password<br><input class="form-group" type="password" name="password" placeholder="Password"></p>
+                <p>Confirm Password<br><input class="form-group" type="password" name="confirmpw" placeholder="Password"></p>
+                <input type="submit" class="btn btn-outline-danger" value="Register">
+            </form>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="login">
+            <h1>Login</h1>
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <p>Email<input class="input-group-text" type="text" name="login_email"></p>
+                <p>Password<input class="input-group-text" type="password" name="login_password"></p>
+                <input type="submit" class="btn btn-outline-success" value="Login">
+            </form>
+            
+        </div>
+
+    </div>
+</body>
+
+</html>

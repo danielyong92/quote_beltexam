@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User Quotes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        #container {
+            background-color: #e9f4e6;
+            width: 90%;
+            padding: 20px;
+            margin: auto;
+            border: solid 5px black;
+            min-height: 500px;
+        }
+
+        .quote {
+            border: solid 2px black;
+            padding: 10px;
+            width: 30%;
+            margin: 10px;
+        }
+        #back {
+            float: right;
+            vertical-align: top;
+        }
+
+        #logout {
+            float: right;
+            vertical-align: top;
+        }
+        h3{
+            float:left;
+
+        }
+    </style>
+</head>
+
+<div id="container">
+    
+    <h3>{{this_user.first_name}} {{this_user.last_name}}'s Quotes</h3>
+    <a href="/back" id="back">Back</a>
+    <button id="logout" onclick="window.location.href = '/clear';">Logout</button><br>
+    
+    {% for quote in quotes %}
+    <body>
+        <div class="quote">
+            {{quote.author}}:
+            <p>{{quote.quote}}</p>
+        </div>
+
+        {% endfor %}
+
+    </body>
+</div>
+
+</html>
